@@ -3,7 +3,7 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=on"/>
-    <title>Машина Шифрования</title>
+    <title>Машина Шифрования - Klavkir</title>
     
   <link rel="stylesheet" href="style.css">
    
@@ -11,24 +11,25 @@
   <body>
   <header>
     <h1>Машина Шифрования</h1>
+    <h2>Klavkir</h2>
     <h3>Berlin Andrey</h3>
   </header>
   <section>
     
  <hr />
- <h2>Процесс кодирования</h2>
+ <h2>Процесс Шифрования</h2>
  
- <h3>Введите в поле ввода<br>текст латиницей<br> или цифры для кодирования:</h3>
+ <h3>Введите в поле ввода<br>слово кирилицей<br> или цифры для шифрования:</h3>
  
  <input type="text" id = "encode" value="">
  
  <br>
  <br>
-  <h3>Нажмите "Enter", что бы закодировать:</h3>  
+  <h3>Нажмите "Enter", что бы зашифровать:</h3>  
 
  <button type="button" id="enter_encode">👆Enter▶️</button>
  <hr />
- <h3>Результат кодирования:</h3>
+ <h3>Результат Шифрования:</h3>
  
   <p id = "out_code">
 
@@ -36,20 +37,20 @@
  <hr>
  
  
-  <h2>Процесс декодирования:</h2>
+  <h2>Процесс Расшифровки:</h2>
  
- <h3>Что декодировать?<br>Шифр - результат кодирования</h3>
+ <h3>Что расшифровать?<br>Шифр - результат Шифрования</h3>
   
   <input type="text" id = "decode" value="">
  
  <br>
  <br>
-  <h3>Нажмите "Enter", что бы декодировать:</h3>
+  <h3>Нажмите "Enter", что бы расшифровать:</h3>
  
  
  <button type="button" id="enter_decode">👆Enter▶️</button>
  <hr />
- <h3>Результат декодирования:</h3>
+ <h3>Результат Расшифровки:</h3>
   <p id = "out_decode">
 
   </p>
@@ -63,7 +64,296 @@
   </section>
     
 </body>
-  <script src = "script.js"> </script>
+
+  <!--script src = "base64.js">
+  </script-->
+
+  <script>
+  
+  /*  шифратор   */
+  
+    let enter_encode = document.getElementById('enter_encode');
+    
+   enter_encode.onclick = function () {
+  
+ 
+  const rusToLat = function(str) {
+  let ru = {
+    'а': 'f', 'б': '@', 'в': 'd', 'г': 'u', 'д': 'l', 
+    'е': 't', 'ё': '#', 'ж': '®', 'з': 'p', 'и': 'b', 
+    'к': 'r', 'л': 'k', 'м': 'v', 'н': 'y', 'о': 'j', 
+    'п': 'g', 'р': 'h', 'с': 'c', 'т': 'n', 'у': 'e', 
+    'ф': 'a', 'х': '&', 'ц': 'w', 'ч': 'x', 'ш': 'i', 
+    'щ': 'o', 'ы': 's', 'э': '©', 'ю': '∆', 'я': 'z', 
+    'ъ': '$', 'ь': 'm', 'й': 'q', '1':'0','2':'9','3':'8','4':'7','5':'6','6':'5','7':'4','8':'3','9':'2','0':'1'
+  };
+  
+  
+  
+  
+  let newString = [];
+  
+  /*console.log(newString);*/
+  
+  return [...str].map(l => {
+   
+   //console.log(str);
+   //console.log(l);
+   
+    let latL = ru[l.toLocaleLowerCase()];
+   // console.log(ru);
+   // console.log(latL); 
+    if (l !== l.toLocaleLowerCase()) {
+
+      latL = latL.charAt(0).toLocaleUpperCase() + latL.slice(1);
+/*console.log(latL);*/
+    } else if (latL === undefined) {
+
+      latL = l;
+/*console.log(latL);*/
+    }
+    
+    return latL;
+  }).join('');
+}
+
+/*   */
+  
+const latToLat = function(str1) {
+  let lat = {
+    'a': 'z', 
+    'b': 'y', 
+    'c': 'x',
+    'd': 'w',
+    'e': 'v', 
+    'f': 'u', 
+    'g': 't',
+    'h': 's', 
+    'i': 'r', 
+    'j': 'q', 
+    'k': 'p', 
+    'l': 'o', 
+    'm': 'n',
+    'n': 'm',
+    'o': 'l', 
+    'p': 'k', 
+    'q': 'j', 
+    'r': 'i', 
+    's': 'h',
+    't': 'g', 
+    'u': 'f', 
+    'v': 'e', 
+    'w': 'd', 
+    'x': 'c',
+    'y': 'b', 
+    'z': 'a', 
+    '1':'6',
+    '2':'5',
+    '3':'4',
+    '4':'3',
+    '5':'2',
+    '6':'1',
+    '7':'0',
+    '8':'9',
+    '9':'8',
+    '0':'7'
+  };
+  
+  
+  
+  
+  let newString1 = [];
+  
+  /*console.log(newString);*/
+  
+  return [...str1].map(r => {
+   
+   //console.log(str1);
+   //console.log(r);
+   
+    let lat_L = lat[r.toLocaleLowerCase()];
+    //console.log(lat);
+    //console.log(lat_L); 
+    if (r !== r.toLocaleLowerCase()) {
+
+      lat_L = lat_L.charAt(0).toLocaleUpperCase() + lat_L.slice(1);
+/*console.log(latL);*/
+    } else if (lat_L === undefined) {
+
+      lat_L = r;
+/*console.log(latL);*/
+    }
+    
+    return lat_L;
+  }).join('');
+}  
+  
+  
+let encode = document.getElementById('encode').value;
+
+const str = encode;
+
+const str1 = rusToLat (str);
+
+let out_encode = latToLat (str1);
+
+let out_encode1 = window.btoa(out_encode);
+
+let out_code = document.getElementById('out_code');
+
+   out_code.innerHTML = out_encode1;
+
+
+
+};
+
+/*  дешифратор   */
+
+let enter_decode = document.getElementById('enter_decode');
+
+enter_decode.onclick = function () {
+  
+  const latToLat = function(str1) {
+  let lat = {
+    'z': 'a', 
+    'y': 'b', 
+    'x': 'c',
+    'w': 'd',
+    'v': 'e', 
+    'u': 'f', 
+    't': 'g',
+    's': 'h', 
+    'r': 'i', 
+    'q': 'j', 
+    'p': 'k', 
+    'o': 'l', 
+    'n': 'm',
+    'm': 'n',
+    'l': 'o', 
+    'k': 'p', 
+    'j': 'q', 
+    'i': 'r', 
+    'h': 's',
+    'g': 't', 
+    'f': 'u', 
+    'e': 'v', 
+    'd': 'w', 
+    'c': 'x',
+    'b': 'y', 
+    'a': 'z', 
+    '6':'1',
+    '5':'2',
+    '4':'3',
+    '3':'4',
+    '2':'5',
+    '1':'6',
+    '0':'7',
+    '9':'8',
+    '8':'9',
+    '7':'0'
+  };
+  
+  
+  
+  
+  let newString1 = [];
+  
+  /*console.log(newString);*/
+  
+  return [...str1].map(r => {
+   
+   console.log(str1);
+  console.log(r);
+   
+    let lat_L = lat[r.toLocaleLowerCase()];
+   // console.log(lat);
+   // console.log(lat_L); 
+    if (r !== r.toLocaleLowerCase()) {
+
+      lat_L = lat_L.charAt(0).toLocaleUpperCase() + lat_L.slice(1);
+/*console.log(latL);*/
+    } else if (lat_L === undefined) {
+
+      lat_L = r;
+/*console.log(latL);*/
+    }
+    
+    return lat_L;
+  }).join('');
+}  
+  
+ /*    */ 
+  
+ 
+  const rusToLat = function(str) {
+  let ru = {
+    'f': 'а', '@': 'б', 'd': 'в', 'u': 'г', 'l': 'д', 
+    't': 'е', '#': 'ё', '®': 'ж', 'p': 'з', 'b': 'и', 
+    'r': 'к', 'k': 'л', 'v': 'м', 'y': 'н', 'j': 'о', 
+    'g': 'п', 'h': 'р', 'c': 'с', 'n':'т', 'e': 'у', 
+    'a': 'ф', '&': 'х', 'w': 'ц', 'x': 'ч', 'i': 'ш', 
+    'o': 'щ', 's': 'ы', '©': 'э', '∆': 'ю', 'z': 'я', 
+    '$': 'ъ', 'm': 'ь', 'q': 'й', '0':'1','9':'2','8':'3','7':'4','6':'5','5':'6','4':'7','3':'8','2':'9','1':'0'
+  };
+  
+  
+  
+  
+  let newString = [];
+  
+  /*console.log(newString);*/
+  
+  return [...str].map(l => {
+   
+   console.log(str);
+   console.log(l);
+   
+    let latL = ru[l.toLocaleLowerCase()];
+    console.log(ru);
+    console.log(latL); 
+    if (l !== l.toLocaleLowerCase()) {
+
+      latL = latL.charAt(0).toLocaleUpperCase() + latL.slice(1);
+/*console.log(latL);*/
+    } else if (latL === undefined) {
+
+      latL = l;
+/*console.log(latL);*/
+    }
+    
+    return latL;
+  }).join('');
+}
+ 
+  
+  
+  
+let decode = document.getElementById('decode').value;
+
+const str1 = window.atob(decode);
+
+const str = latToLat (str1);
+
+console.log(decode);
+
+let out_decoder = rusToLat(str);
+
+let out_decode = document.getElementById('out_decode');
+
+   out_decode.innerHTML = out_decoder;
+
+};
+
+
+
+
+/*let text = "Hello World!";
+let encoded = window.btoa(text);
+let decoded = window.atob(encoded);
+
+document.getElementById("demo").innerHTML = "Encoded: " + encoded + "<br>" + "Decoded: " + decoded;*/
+    
+  </script>
 </html>
 
 
